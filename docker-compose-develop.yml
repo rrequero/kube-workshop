@@ -1,0 +1,11 @@
+version: "2"
+services:
+  develop:
+    extends:
+      file: docker-compose.yml
+      service: develop
+    command: npm run dev
+    environment:
+      - PASSWORD=otherPass
+    volumes:
+      - ./src:/opt/kube-workshop/src

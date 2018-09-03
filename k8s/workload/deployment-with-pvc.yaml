@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: kube-workshop
+    app: test
+  name: kube-workshop
+spec:
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        name: kube-workshop
+    spec:
+      containers:
+      - name: kube-workshop
+        image: rrequero/kube-workshop:1.0.5
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "128Mi"
+          limits:
+            memory: "256Mi"
+        env:
+          - name: PORT
+            value: "3000"
+          - name: NODE_ENV
+            value: prod
+          - name: PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: kube-workshop-secrets
+                  key: PASSWORD
+        ports:
+          - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 3000
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
+        volumeMounts:
+        - name: kube-workshop-storage
+          mountPath: /database
+      restartPolicy: Always
+      volumes:
+      - name: kube-workshop-storage
+        persistentVolumeClaim:
+          claimName: kube-workshop-storage

@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kube-workshop-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: kube-workshop-ingress
+    # kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "gce"
+spec:
+  # tls:
+  # - hosts:
+  #   - mydomain.com
+  #   secretName: ct-prod-tls-kube-workshop
+  rules:
+  - host: mydomain.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: kube-workshop-svc
+          servicePort: 3000
