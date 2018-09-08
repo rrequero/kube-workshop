@@ -43,7 +43,7 @@ spec:
           failureThreshold: 10
         volumeMounts:
         - name: kube-workshop-storage
-          mountPath: /database
+          mountPath: /opt/kube-workshop/database
       restartPolicy: Always
       volumes:
       - name: kube-workshop-storage
