@@ -12,6 +12,8 @@ spec:
       labels:
         name: kube-workshop
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       - name: kube-workshop
         image: rrequero/kube-workshop:1.0.5
