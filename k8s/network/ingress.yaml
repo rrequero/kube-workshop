@@ -10,7 +10,7 @@ spec:
   # tls:
   # - hosts:
   #   - mydomain.com
-  #   secretName: ct-prod-tls-kube-workshop
+  #   secretName: tls-kube-workshop
   rules:
   - host: mydomain.com
     http:
