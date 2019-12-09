@@ -84,7 +84,7 @@ body:
 
 2. Get value by key
 
-POST /api/v1/sqlite/get/:key
+GET /api/v1/sqlite/get/:key
 
 3. Generate a JWT token with the content of the request and the password configured in the secrets
 

@@ -16,7 +16,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: kube-workshop
-        image: rrequero/kube-workshop:1.0.5
+        image: rrequero/kube-workshop:1.0.7
         imagePullPolicy: Always
         resources:
           requests:

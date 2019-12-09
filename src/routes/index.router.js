@@ -28,15 +28,24 @@ class IndexRouter {
     }
 
     static async get(ctx) {
-
-        const db = await dbPromise;
-        const key = ctx.params.key;
-        const row = await db.get(SQL `SELECT value from map where key=${key}`);
-        if (!row || !row.value) {
-            ctx.throw(404, 'Key not found');
-            return;
+        let db;
+        try {
+            db = await dbPromise;            
+        } catch(err) {
+            ctx.throw(500, 'Error opening database')
         }
-        ctx.body = row;
+        try {
+            const key = ctx.params.key;
+            const row = await db.get(SQL`SELECT value from map where key=${key}`);
+            if (!row || !row.value) {
+                ctx.throw(404, 'Key not found');
+                return;
+            }
+            ctx.body = row;
+        } catch(err) {
+            ctx.throw(404, 'Key not found');
+        }
+        
     }
 
     static async jwt(ctx) {

@@ -5,21 +5,18 @@ ENV NAME kube-workshop
 ENV USER kube-workshop
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache --update bash git openssh python alpine-sdk
+    apk add --no-cache --update bash git openssh python alpine-sdk && \
+    addgroup $USER && adduser -s /bin/bash -D -G $USER $USER && \
+  mkdir -p /opt/$NAME && mkdir /opt/$NAME/database
 
-RUN addgroup $USER && adduser -s /bin/bash -D -G $USER $USER
-
-RUN mkdir -p /opt/$NAME
 COPY package.json /opt/$NAME/package.json
 RUN cd /opt/$NAME && npm install
 
 WORKDIR /opt/$NAME
 
 COPY ./nodemon.json /opt/$NAME/nodemon.json
-COPY ./database /opt/$NAME/database
 COPY ./src /opt/$NAME/src
-RUN chown $USER:$USER /opt/$NAME/src
-RUN chown $USER:$USER /opt/$NAME/database
+RUN chown $USER:$USER /opt/$NAME/src  && chown $USER:$USER /opt/$NAME/database
 
 # Tell Docker we are going to use this ports
 EXPOSE 3000
