@@ -7,6 +7,9 @@ metadata:
   name: kube-workshop
 spec:
   revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      name: kube-workshop
   template:
     metadata:
       labels:
