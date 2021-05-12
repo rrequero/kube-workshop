@@ -1,18 +1,21 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: minimal-ingress
+  name: kube-workshop-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.global-static-ip-name: kube-workshop-ingress
+    # kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "gce"
 spec:
+  # tls:
+  # - hosts:
+  #   - mydomain.com
+  #   secretName: tls-kube-workshop
   rules:
   - host: mydomain.com
     http:
       paths:
       - path: /*
-        pathType: Prefix
         backend:
-          service:
-            name: kube-workshop-svc
-            port:
-              number: 3000
+          serviceName: kube-workshop-svc
+          servicePort: 3000
